@@ -12,6 +12,7 @@ class StaticPagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get about" do
+    # これは、routes見に行っているらしい
     get static_pages_about_url
     assert_response :success
   end
