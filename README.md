@@ -37,5 +37,8 @@ $ rails test
 $ rails server
 ```
 
-詳しくは、[_Ruby on Rails チュートリアル_](https://railstutorial.jp/)
-を参考にしてください。
+こちらのコマンドでテストを常に監視することが出来ます。
+
+```
+$ bundle exec guard
+```
