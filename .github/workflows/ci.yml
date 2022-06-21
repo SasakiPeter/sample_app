@@ -1,0 +1,72 @@
+name: CI
+
+on: [push]
+  # push:
+  #   branches:
+  #     - main
+  #   tags-ignore:
+  #     - v*
+  #   paths-ignore:
+  #     - '**.md'
+  # pull_request:
+  #   paths-ignore:
+  #     - '**.md'
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Cache bundle gems
+        uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gem-${{ env.cache-name }}-
+            ${{ runner.os }}-gem-
+            ${{ runner.os }}-
+            
+      # - name: Install Node.js and Yarn
+      #   run: |
+      #     curl -sL https://deb.nodesource.com/setup_16.x | bash -
+      #     apt-get install -y nodejs
+      #     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+      #     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+      #     apt update && apt install yarn
+
+      - name: Install Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.1
+      
+      - name: Install Bundler
+        run: gem install bundler --no-document -v $(grep "BUNDLED WITH" -1 Gemfile.lock | tail -n 1)
+
+      - name: Bundle install
+        run: bundle install --path=vendor/bundle --jobs 4 --retry 3
+
+      - name: Yarn install
+        run: bundle exec rails yarn:install
+
+      - name: DB setup
+        run: bundle exec rails db:setup
+
+      - name: Run tests
+        run: bundle exec rails test
