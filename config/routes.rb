@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "users/new"
   # rootのときは、関数を指定
   # rootに指定したurlはroot_urlとして使える模様
   root "static_pages#home"
@@ -10,4 +11,5 @@ Rails.application.routes.draw do
   get "/help", to: "static_pages#help"
   get "/about", to: "static_pages#about"
   get "/contact", to: "static_pages#contact"
+  get "/signup", to: "users#new"
 end
