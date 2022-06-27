@@ -13,4 +13,10 @@ class User < ApplicationRecord
                     # upcaseとdowncaseを区別しない
                     # uniquenessは暗黙的にtrue
                     uniqueness: { case_sensitive: false }
+
+  # ハッシュ化したパスワードをpassword_digestに保存(要password_digest)
+  # authenticateがつかえる　passwordとpassword_confirmationがつかえる
+  has_secure_password
+
+  validates :password, presence: true, length: { minimum: 6 }
 end
