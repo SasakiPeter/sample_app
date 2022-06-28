@@ -10,8 +10,10 @@ Rails.application.routes.draw do
   get "/help", to: "static_pages#help"
   get "/about", to: "static_pages#about"
   get "/contact", to: "static_pages#contact"
-  get "/signup", to: "users#new"
 
+  # resources でも定義されているので、2つのroutesがactionにひもづいてる
+  get "/signup", to: "users#new"
+  post "/signup", to: "users#create"
   # リソースとして扱うと、CRUDが生える
   # get→show,new,edit とか
   # get "users/new" ←不要になった
