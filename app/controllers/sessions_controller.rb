@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
     # 見つからないと、nilが返る
     user = User.find_by(email: params[:session][:email].downcase)
     if user && user.authenticate(params[:session][:password])
-      # helperはcontrollerでも呼べる
+      # helperはcontrollerでも呼べる→なぜなら、include SessionsHelperしてるから
       log_in user
       # 認証成功したら、個別ページにリダイレクト
       redirect_to user
