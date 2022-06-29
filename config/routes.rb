@@ -14,6 +14,11 @@ Rails.application.routes.draw do
   # resources でも定義されているので、2つのroutesがactionにひもづいてる
   get "/signup", to: "users#new"
   post "/signup", to: "users#create"
+
+  get "/login", to: "sessions#new"
+  post "/login", to: "sessions#create"
+  delete "/logout", to: "sessions#destroy"
+
   # リソースとして扱うと、CRUDが生える
   # get→show,new,edit とか
   # get "users/new" ←不要になった
