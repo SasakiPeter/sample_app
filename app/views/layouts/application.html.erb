@@ -10,9 +10,10 @@
     <div class="container">
       <main>
         <% flash.each do |message_type, message| %>
-          <div class="alert alert-<%= message_type %>">
-            <%= message %>
-          </div>
+          <%# <div class="alert alert-<%= message_type"> %>
+          <%#= message %>
+          <%# </div> %>
+          <%= content_tag(:div, message, class: "alert alert-#{message_type}") %>
         <% end %>
         <%= yield %>
       </main>
