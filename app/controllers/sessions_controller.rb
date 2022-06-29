@@ -8,6 +8,8 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:session][:password])
       # helperはcontrollerでも呼べる→なぜなら、include SessionsHelperしてるから
       log_in user
+      # modelに定義されてるはずなんだけど...?
+      remember user
       # 認証成功したら、個別ページにリダイレクト
       redirect_to user
     else
@@ -18,7 +20,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    log_out
+    log_out if logged_in?
     redirect_to root_url
   end
 end
