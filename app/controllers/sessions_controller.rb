@@ -6,12 +6,13 @@ class SessionsController < ApplicationController
     # 見つからないと、nilが返る
     user = User.find_by(email: params[:session][:email].downcase)
     if user && user.authenticate(params[:session][:password])
+      # helperはcontrollerでも呼べる
+      log_in user
       # 認証成功したら、個別ページにリダイレクト
       redirect_to user
     else
       # .nowをつけると、次のリクエストで消滅する
       flash.now[:danger] = "Invalid email/password combination"
-      # redirect_to login_path
       render "new"
     end
   end
