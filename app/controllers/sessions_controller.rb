@@ -4,12 +4,15 @@ class SessionsController < ApplicationController
 
   def create
     # 見つからないと、nilが返る
-    user = User.find_by(email: params[:session][:email].downcase)
-    if user && user.authenticate(params[:session][:password])
+    # local変数ではなく、instance変数にすることで、テストからassigns(:user)で参照できる
+    @user = User.find_by(email: params[:session][:email].downcase)
+    if @user && @user.authenticate(params[:session][:password])
       # helperはcontrollerでも呼べる→なぜなら、include SessionsHelperしてるから
-      log_in user
+      log_in @user
+
+      params[:session][:remember_me] == "1" ? remember(@user) : forget(@user)
       # 認証成功したら、個別ページにリダイレクト
-      redirect_to user
+      redirect_to @user
     else
       # .nowをつけると、次のリクエストで消滅する
       flash.now[:danger] = "Invalid email/password combination"
@@ -18,7 +21,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    log_out
+    log_out if logged_in?
     redirect_to root_url
   end
 end
