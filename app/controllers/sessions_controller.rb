@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   def new
+    # debugger
   end
 
   def create
@@ -11,8 +12,8 @@ class SessionsController < ApplicationController
       log_in @user
 
       params[:session][:remember_me] == "1" ? remember(@user) : forget(@user)
-      # 認証成功したら、個別ページにリダイレクト
-      redirect_to @user
+      # 認証成功したら、個別ページにリダイレクトか、元のページに戻してあげる
+      redirect_back_or @user
     else
       # .nowをつけると、次のリクエストで消滅する
       flash.now[:danger] = "Invalid email/password combination"
