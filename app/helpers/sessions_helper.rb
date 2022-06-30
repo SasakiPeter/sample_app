@@ -16,6 +16,8 @@ module SessionsHelper
       # 一時セッション
       @current_user ||= User.find_by(id: user_id)
     elsif (user_id = cookies.signed[:user_id])
+      # # ここのtestが忘れているか検証のために、raiseを仕込む
+      # raise
       # 永続セッション
       user = User.find_by(id: user_id)
       if user && user.authenticated?(cookies[:remember_token])
