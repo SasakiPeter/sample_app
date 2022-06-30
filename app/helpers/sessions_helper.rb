@@ -32,13 +32,16 @@ module SessionsHelper
   end
 
   def forget(user)
+    # digest削除
     user.forget
     cookies.delete(:user_id)
     cookies.delete(:remember_token)
   end
 
   def log_out
+    # クッキーの削除
     forget(current_user)
+    # セッションの削除
     session.delete(:user_id)
     # moduleの呼び出し先のメンバ変数として生えている？
     @current_user = nil
