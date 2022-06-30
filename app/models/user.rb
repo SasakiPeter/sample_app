@@ -21,7 +21,8 @@ class User < ApplicationRecord
   # authenticateがつかえる　passwordとpassword_confirmationがつかえる
   has_secure_password
 
-  validates :password, presence: true, length: { minimum: 6 }
+  # nil trueはパスワード更新時にnilだと変更しないという仕様
+  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
 
   # # fixtureで使ってる
   # def User.digest(string)
