@@ -21,6 +21,7 @@ gem "coffee-rails", ">= 4.2.2"
 gem "jquery-rails", ">= 4.3.1"
 gem "bootstrap-sass", ">= 3.3.7"
 gem "bcrypt", ">= 3.1.12"
+gem "faker", ">= 1.7.3"
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
