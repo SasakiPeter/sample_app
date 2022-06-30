@@ -8,8 +8,8 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:session][:password])
       # helperはcontrollerでも呼べる→なぜなら、include SessionsHelperしてるから
       log_in user
-      # modelに定義されてるはずなんだけど...?
-      remember user
+
+      params[:session][:remember_me] == "1" ? remember(user) : forget(user)
       # 認証成功したら、個別ページにリダイレクト
       redirect_to user
     else
