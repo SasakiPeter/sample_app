@@ -23,4 +23,5 @@ Rails.application.routes.draw do
   # get→show,new,edit とか
   # get "users/new" ←不要になった
   resources :users
+  resources :account_activations, only: [:edit]
 end
